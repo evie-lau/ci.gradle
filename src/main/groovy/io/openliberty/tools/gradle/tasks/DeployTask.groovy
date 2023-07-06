@@ -17,6 +17,7 @@ package io.openliberty.tools.gradle.tasks
 
 import io.openliberty.tools.gradle.utils.*
 import io.openliberty.tools.ant.ServerTask
+import io.openliberty.tools.common.plugins.config.ApplicationMonitorConfigXmlDocument;
 import io.openliberty.tools.common.plugins.config.ApplicationXmlDocument
 import io.openliberty.tools.common.plugins.config.LooseApplication
 import io.openliberty.tools.common.plugins.config.LooseConfigData
@@ -51,6 +52,7 @@ import java.io.File
 class DeployTask extends AbstractServerTask {
 
     protected ApplicationXmlDocument applicationXml = new ApplicationXmlDocument();
+    protected ApplicationMonitorConfigXmlDocument appMonXml = new ApplicationMonitorConfigXmlDocument();
 
     private static final String LIBS = "libs";
     private static final String BUILD_LIBS = "build/" + LIBS;
@@ -112,6 +114,11 @@ class DeployTask extends AbstractServerTask {
                 ServerConfigDocument.markInstanceStale()
             }
         }
+
+        // create applicationMonitor configuartion in configDropins/defaults
+        appMonXml.createComment(HEADER);
+        appMonXml.createAppMonitorElement();
+        appMonXml.writeAppMonitorConfigXmlDocument(getServerDir(project));
     }
 
     private void installMultipleApps(List<Task> applications, String appsDir) {

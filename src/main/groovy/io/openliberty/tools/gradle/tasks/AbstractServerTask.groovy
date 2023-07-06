@@ -418,6 +418,7 @@ abstract class AbstractServerTask extends AbstractLibertyTask {
                 }
             }
         }
+        defaultVarProjectProps.setProperty("io.openliberty.tools.update.trigger", "polled");
     }
 
     private void addProjectProperty(String propName, String propValue, PropertyType propType) {
